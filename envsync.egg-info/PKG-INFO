@@ -1,0 +1,100 @@
+Metadata-Version: 2.4
+Name: envsync
+Version: 0.1.0
+Summary: Securely share .env files with teammates via Firebase
+Author-email: Hillel <hillelilanyfreedman@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/oh4-beep/envsync
+Project-URL: Repository, https://github.com/oh4-beep/envsync
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typer[all]>=0.9.0
+Requires-Dist: cryptography>=41.0.0
+Requires-Dist: firebase-admin>=6.0.0
+Requires-Dist: toml>=0.10.2
+
+# envsync
+
+Securely share `.env` files with teammates using encryption and Firebase.
+
+## Why this exists
+
+Sharing `.env` files over Slack or email is a security risk. Git is not an option either. envsync encrypts your secrets locally before they ever leave your machine, pushes the encrypted blob to Firestore, and lets teammates pull and decrypt with a shared key.
+
+## Install
+
+```bash
+pip install envsync
+```
+
+## Quickstart
+
+**Step 1 - Set up on your machine:**
+```bash
+envsync init
+```
+You will be asked for a project name and the path to your Firebase service account JSON.
+
+**Step 2 - Generate a secret key:**
+```bash
+envsync keygen
+```
+Copy the key and share it with your teammates securely (see below).
+
+**Step 3 - Push your `.env` to Firestore:**
+```bash
+envsync push --key YOUR_KEY
+```
+
+**Step 4 - Teammate pulls and decrypts:**
+```bash
+envsync pull --key YOUR_KEY
+```
+
+**Check your current config:**
+```bash
+envsync status
+```
+
+## Config reference
+
+envsync stores your config at `~/.envsync/config.toml`:
+
+```toml
+[settings]
+project_name = "my-project"
+service_account_path = "/absolute/path/to/serviceAccountKey.json"
+```
+
+The secret key is never stored here. You manage and share it yourself.
+
+## How to share the key with teammates
+
+Never share the key over Slack, email, or any chat tool. Use a password manager that supports secure sharing, such as 1Password, Bitwarden, or Dashlane. Send the key through the password manager's built-in share feature so it never appears in plaintext in a message thread.
+
+## Security rules
+
+- Your `.env` is encrypted locally before it is sent anywhere
+- Firestore only ever holds the encrypted blob, which is useless without the key
+- The key is your responsibility to share securely
+- Never commit your service account JSON to git
+
+## .gitignore warning
+
+Add this to your `.gitignore` immediately:
+
+```
+.env
+serviceAccountKey.json
+*.json
+```
+
+The service account JSON gives full access to your Firebase project. Treat it like a password.
+
+## License
+
+Copyright (c) 2026 Hillel Ilany Freedman
+
+Permission is hereby granted to use this software freely for personal and commercial use.
+Copying, redistributing, or republishing this software in whole or in part without explicit
+written permission from the author is not permitted.

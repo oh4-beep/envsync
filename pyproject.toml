@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "envsync-secure"
+version = "0.1.1"
+description = "Securely share .env files with teammates via Firebase"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Hillel Ilany Freedman", email = "hillelilanyfreedman@gmail.com" }
+]
+requires-python = ">=3.8"
+dependencies = [
+    "typer[all]>=0.9.0",
+    "cryptography>=41.0.0",
+    "firebase-admin>=6.0.0",
+    "toml>=0.10.2",
+]
+
+[project.scripts]
+envsync = "envsync.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/oh4-beep/envsync"
+Repository = "https://github.com/oh4-beep/envsync"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["envsync*"]

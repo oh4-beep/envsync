@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+envsync/__init__.py
+envsync/cli.py
+envsync/config.py
+envsync/crypto.py
+envsync/vault.py
+envsync.egg-info/PKG-INFO
+envsync.egg-info/SOURCES.txt
+envsync.egg-info/dependency_links.txt
+envsync.egg-info/entry_points.txt
+envsync.egg-info/requires.txt
+envsync.egg-info/top_level.txt
+tests/test_crypto.py
